@@ -1,8 +1,6 @@
 package io.tw;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -11,7 +9,7 @@ public class Environment {
   private final int maxX;
   private final int maxY;
 
-  private final Cells cells;
+  private Cells cells;
 
   public static Environment create(int maxX, int maxY, Position[] positions) {
     final Set<Position> positionsAsSet = new HashSet<>();
@@ -55,6 +53,30 @@ public class Environment {
         collect(Collectors.toSet());
 
     return new Cells(nextAliveCellPositions);
+  }
+
+  public void next() {
+    this.cells = calcNextCells();
+  }
+
+  public char[][] createScreenMatrix() {
+    final char[][] screen = new char[maxX][maxY];
+    for (char[] line : screen) {
+      Arrays.fill(line, ' ');
+    }
+    for (Position position : cells.getAliveCells()) {
+      screen[position.x - 1][position.y - 1] = '*';
+    }
+    return screen;
+  }
+
+  public String show() {
+    List<String> lines = new LinkedList<>();
+    final char[][] screen = createScreenMatrix();
+    for (char[] chars : screen) {
+      lines.add(new String(chars));
+    }
+    return String.join("\n", lines);
   }
 
 }

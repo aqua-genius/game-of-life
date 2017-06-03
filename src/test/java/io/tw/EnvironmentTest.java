@@ -143,4 +143,22 @@ public class EnvironmentTest extends TestCase {
     assertFalse(cells.isAliveCell(Position.of(2, 3)));
   }
 
+  public void testShow() {
+    final Environment environment = Environment.create(
+      3, 3,
+      new Position[]{
+        Position.of(2, 1),
+        Position.of(2, 3),
+        Position.of(3, 1),
+      }
+    );
+
+    final String lines = environment.show();
+    final String result =
+      "   \n" +
+        "* *\n" +
+        "*  ";
+    assertEquals(lines, result);
+  }
+
 }
