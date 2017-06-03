@@ -7,7 +7,7 @@ import java.util.List;
 
 public class App {
 
-  private static final int INTERVAL = 100;
+  private static final int INTERVAL = 20;
 
   public static void main(String[] args) throws InterruptedException, IOException {
     if (args.length < 1) {

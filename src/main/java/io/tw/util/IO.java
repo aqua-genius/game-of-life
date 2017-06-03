@@ -9,7 +9,7 @@ import java.util.List;
 
 public class IO {
 
-  private static final char CELL_ALIVE_1 = '1';
+  private static final char CELL_ALIVE_1 = '*';
 
   public static List<String> readFile(String filePath) throws IOException {
     File file = new File(filePath);
