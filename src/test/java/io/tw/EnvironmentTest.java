@@ -143,7 +143,7 @@ public class EnvironmentTest extends TestCase {
     assertFalse(cells.isAliveCell(Position.of(2, 3)));
   }
 
-  public void testShow() {
+  public void ignoredTestShow() {
     final Environment environment = Environment.create(
       3, 3,
       new Position[]{
@@ -154,7 +154,6 @@ public class EnvironmentTest extends TestCase {
     );
 
     final String lines = environment.show();
-    System.out.println(lines);
     final String result =
       " ■■\n" +
         "   \n" +

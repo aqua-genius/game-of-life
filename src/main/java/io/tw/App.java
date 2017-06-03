@@ -9,7 +9,7 @@ public class App {
 
   public static void main(String[] args) throws InterruptedException, IOException {
     if (args.length < 2) {
-      System.out.println("");
+      System.out.println("Usage: run $filepath $interval");
       return;
     }
 

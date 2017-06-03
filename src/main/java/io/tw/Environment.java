@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 public class Environment {
 
-  public static final char CELL_ALIVE = '\u25A0';
+  public static final char CELL_ALIVE = '▓';
   private static final char CELL_DEAD = ' ';
 
   private final int maxX;
