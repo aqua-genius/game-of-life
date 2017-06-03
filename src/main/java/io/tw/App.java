@@ -7,20 +7,21 @@ import java.util.List;
 
 public class App {
 
-  private static final int INTERVAL = 20;
-
   public static void main(String[] args) throws InterruptedException, IOException {
-    if (args.length < 1) {
-      System.out.println("need filename");
+    if (args.length < 2) {
+      System.out.println("");
       return;
     }
 
     final String filePath = args[0];
+    final int INTERVAL = Integer.parseInt(args[1]);
+
+    final boolean singleRun = args.length > 2 && args[2].equals("--single-run");
+
     final List<String> input = IO.readFile(filePath);
 
-    final String[] xy = input.get(0).split(",");
-    final int x = Integer.parseInt(xy[0].trim());
-    final int y = Integer.parseInt(xy[1].trim());
+    final int x = parseX(input.get(0));
+    final int y = parseY(input.get(0));
 
     final Position[] initialPositions = IO.scanPositions(input.subList(1, input.size()));
 
@@ -35,7 +36,17 @@ public class App {
       System.out.println(lines);
       Thread.sleep(INTERVAL);
       environment.mutate();
+
+      if (singleRun) return;
     }
+  }
+
+  static int parseX(String line) {
+    return Integer.parseInt(line.split(",")[0].trim());
+  }
+
+  static int parseY(String line) {
+    return Integer.parseInt(line.split(",")[1].trim());
   }
 
 }

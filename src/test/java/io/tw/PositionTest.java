@@ -31,4 +31,9 @@ public class PositionTest extends TestCase {
     }
   }
 
+  public void testToString() {
+    final Position position = Position.of(1, 2);
+    assertEquals("Position(x = 1, y = 2)", position.toString());
+  }
+
 }

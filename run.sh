@@ -2,5 +2,4 @@
 
 mvn package
 cd target
-java -jar game-of-life-*.jar ../gosper-glider-gun.txt
-#java -jar game-of-life-*.jar ../pulsar.txt
+java -jar game-of-life-*.jar ../$1 $2
