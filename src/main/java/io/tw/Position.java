@@ -18,6 +18,14 @@ public class Position {
     return new Position(x, y);
   }
 
+  public static Stream<Position> createPositionsWithRange(int lowerX, int upperX, int lowerY, int upperY) {
+    return IntStream.range(lowerX, upperX + 1).boxed().flatMap(x ->
+      IntStream.range(lowerY, upperY + 1).mapToObj(y ->
+        of(x, y)
+      )
+    );
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -32,11 +40,8 @@ public class Position {
   }
 
   Stream<Position> getMaybeAroundPositions() {
-    return IntStream.range(x - 1, x + 2).boxed().flatMap(x ->
-      IntStream.range(y - 1, y + 2).mapToObj(y ->
-        of(x, y)
-      )
-    ).filter(p -> !this.equals(p));
+    return createPositionsWithRange(x - 1, x + 1, y - 1, y + 1).
+      filter(p -> !this.equals(p));
   }
 
   public Stream<Position> getAroundPositions(Predicate<Position> predicate) {

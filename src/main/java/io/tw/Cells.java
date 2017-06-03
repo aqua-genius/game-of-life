@@ -10,8 +10,12 @@ public class Cells {
     this.aliveCells = aliveCells;
   }
 
-  public boolean isCellAlive(Position position) {
+  public boolean isAliveCell(Position position) {
     return aliveCells.contains(position);
+  }
+
+  public Set<Position> getAliveCells() {
+    return aliveCells;
   }
 
 }

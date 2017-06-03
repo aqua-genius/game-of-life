@@ -14,8 +14,8 @@ public class CellsTest extends TestCase {
 
     final Cells cells = new Cells(initialStates);
 
-    assertTrue(cells.isCellAlive(Position.of(1, 2)));
-    assertFalse(cells.isCellAlive(Position.of(2, 1)));
+    assertTrue(cells.isAliveCell(Position.of(1, 2)));
+    assertFalse(cells.isAliveCell(Position.of(2, 1)));
   }
 
 }

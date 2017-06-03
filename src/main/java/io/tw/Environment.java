@@ -3,6 +3,7 @@ package io.tw;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Environment {
@@ -31,16 +32,29 @@ public class Environment {
 
   public boolean calcNextCellState(Position position) {
     final Stream<Position> aroundPositions = position.getAroundPositions(this::isValidPosition);
-    final int aliveCounts = (int) aroundPositions.filter(cells::isCellAlive).count();
+    final int aliveCounts = (int) aroundPositions.filter(cells::isAliveCell).count();
 
     switch (aliveCounts) {
       case 3:
         return true;
       case 2:
-        return cells.isCellAlive(position);
+        return cells.isAliveCell(position);
       default:
         return false;
     }
+  }
+
+  Stream<Position> allPositionsInEnvironment() {
+    return Position.createPositionsWithRange(1, maxX, 1, maxY);
+  }
+
+  public Cells calcNextCells() {
+    final Set<Position> nextAliveCellPositions =
+      allPositionsInEnvironment().
+        filter(this::calcNextCellState).
+        collect(Collectors.toSet());
+
+    return new Cells(nextAliveCellPositions);
   }
 
 }
