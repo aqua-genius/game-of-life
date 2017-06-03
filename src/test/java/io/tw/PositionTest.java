@@ -17,11 +17,11 @@ public class PositionTest extends TestCase {
     assertEquals(position.y, y);
   }
 
-  public void testGetMaybeAroundPositions() throws Exception {
+  public void testGetAroundPositions() throws Exception {
     final int x = RandomUtils.randomInt();
     final int y = RandomUtils.randomInt();
     final Position position = Position.of(x, y);
-    final Stream<Position> positions = position.getMaybeAroundPositions();
+    final Stream<Position> positions = position.getAroundPositions(p -> true);
     final Set<Position> positionsAsSet = positions.collect(Collectors.toSet());
 
     assertEquals(positionsAsSet.size(), 8);

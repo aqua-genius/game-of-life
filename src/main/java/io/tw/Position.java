@@ -6,8 +6,8 @@ import java.util.stream.Stream;
 
 public class Position {
 
-  public final int x;
-  public final int y;
+  final int x;
+  final int y;
 
   private Position(int x, int y) {
     this.x = x;
@@ -18,12 +18,21 @@ public class Position {
     return new Position(x, y);
   }
 
-  public static Stream<Position> createPositionsWithRange(int lowerX, int upperX, int lowerY, int upperY) {
+  static Stream<Position> createPositionsWithRange(int lowerX, int upperX, int lowerY, int upperY) {
     return IntStream.range(lowerX, upperX + 1).boxed().flatMap(x ->
       IntStream.range(lowerY, upperY + 1).mapToObj(y ->
         of(x, y)
       )
     );
+  }
+
+  Stream<Position> getAroundPositions(Predicate<Position> predicate) {
+    return getMaybeAroundPositions().filter(predicate);
+  }
+
+  private Stream<Position> getMaybeAroundPositions() {
+    return createPositionsWithRange(x - 1, x + 1, y - 1, y + 1).
+      filter(p -> !this.equals(p));
   }
 
   @Override
@@ -37,15 +46,6 @@ public class Position {
   @Override
   public int hashCode() {
     return 31 * x + y;
-  }
-
-  Stream<Position> getMaybeAroundPositions() {
-    return createPositionsWithRange(x - 1, x + 1, y - 1, y + 1).
-      filter(p -> !this.equals(p));
-  }
-
-  public Stream<Position> getAroundPositions(Predicate<Position> predicate) {
-    return getMaybeAroundPositions().filter(predicate);
   }
 
   @Override

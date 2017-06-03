@@ -7,20 +7,20 @@ import java.util.stream.Stream;
 public class Environment {
 
   public static final char CELL_ALIVE = '\u25A0';
-  public static final char CELL_DEAD = ' ';
+  private static final char CELL_DEAD = ' ';
 
   private final int maxX;
   private final int maxY;
 
   private Cells cells;
 
-  public static Environment create(int maxX, int maxY, Position[] positions) {
+  static Environment create(int maxX, int maxY, Position[] positions) {
     final Set<Position> positionsAsSet = new HashSet<>();
     positionsAsSet.addAll(Arrays.asList(positions));
     return new Environment(maxX, maxY, new Cells(positionsAsSet));
   }
 
-  public Environment(int maxX, int maxY, Cells cells) {
+  private Environment(int maxX, int maxY, Cells cells) {
     this.maxX = maxX;
     this.maxY = maxY;
     this.cells = cells;
@@ -31,7 +31,7 @@ public class Environment {
       position.x >= 1 && position.y >= 1;
   }
 
-  public boolean calcNextCellState(Position position) {
+  boolean calcNextCellState(Position position) {
     final Stream<Position> aroundPositions = position.getAroundPositions(this::isValidPosition);
     final int aliveCounts = (int) aroundPositions.filter(cells::isAliveCell).count();
 
@@ -49,7 +49,7 @@ public class Environment {
     return Position.createPositionsWithRange(1, maxX, 1, maxY);
   }
 
-  public Cells calcNextCells() {
+  Cells calcNextCells() {
     final Set<Position> nextAliveCellPositions =
       allPositionsInEnvironment().
         filter(this::calcNextCellState).
@@ -58,11 +58,11 @@ public class Environment {
     return new Cells(nextAliveCellPositions);
   }
 
-  public void mutate() {
+  void mutate() {
     this.cells = calcNextCells();
   }
 
-  public char[][] createScreenMatrix() {
+  private char[][] createScreenMatrix() {
     final char[][] screen = new char[maxY][maxX];
     for (char[] line : screen) {
       Arrays.fill(line, CELL_DEAD);
@@ -73,7 +73,7 @@ public class Environment {
     return screen;
   }
 
-  public String show() {
+  String show() {
     List<String> lines = new LinkedList<>();
     final char[][] screen = createScreenMatrix();
     for (char[] chars : screen) {

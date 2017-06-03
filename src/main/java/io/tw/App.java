@@ -13,12 +13,13 @@ public class App {
       return;
     }
 
-    final String filePath = args[0];
-    final int INTERVAL = Integer.parseInt(args[1]);
+    final String initialStatesFilePath = args[0];
+
+    final int interval = Integer.parseInt(args[1]);
 
     final boolean singleRun = args.length > 2 && args[2].equals("--single-run");
 
-    final List<String> input = IO.readFile(filePath);
+    final List<String> input = IO.readFile(initialStatesFilePath);
 
     final int x = parseX(input.get(0));
     final int y = parseY(input.get(0));
@@ -32,9 +33,12 @@ public class App {
 
     while (true) {
       final String lines = environment.show();
+
       System.out.println("\u001B[2J\u001B[3J\u001B[H");
       System.out.println(lines);
-      Thread.sleep(INTERVAL);
+
+      Thread.sleep(interval);
+
       environment.mutate();
 
       if (singleRun) return;

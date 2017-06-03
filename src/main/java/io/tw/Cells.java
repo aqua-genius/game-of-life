@@ -2,19 +2,19 @@ package io.tw;
 
 import java.util.Set;
 
-public class Cells {
+class Cells {
 
   private final Set<Position> aliveCells;
 
-  public Cells(Set<Position> aliveCells) {
+  Cells(Set<Position> aliveCells) {
     this.aliveCells = aliveCells;
   }
 
-  public boolean isAliveCell(Position position) {
+  boolean isAliveCell(Position position) {
     return aliveCells.contains(position);
   }
 
-  public Set<Position> getAliveCells() {
+  Set<Position> getAliveCells() {
     return aliveCells;
   }
 
