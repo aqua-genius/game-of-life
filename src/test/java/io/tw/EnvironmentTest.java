@@ -154,10 +154,11 @@ public class EnvironmentTest extends TestCase {
     );
 
     final String lines = environment.show();
+    System.out.println(lines);
     final String result =
-      "   \n" +
-        "* *\n" +
-        "*  ";
+      " **\n" +
+        "   \n" +
+        " * ";
     assertEquals(lines, result);
   }
 

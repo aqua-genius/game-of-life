@@ -6,6 +6,9 @@ import java.util.stream.Stream;
 
 public class Environment {
 
+  public static final char CELL_ALIVE = '*';
+  public static final char CELL_DEAD = ' ';
+
   private final int maxX;
   private final int maxY;
 
@@ -55,17 +58,17 @@ public class Environment {
     return new Cells(nextAliveCellPositions);
   }
 
-  public void next() {
+  public void mutate() {
     this.cells = calcNextCells();
   }
 
   public char[][] createScreenMatrix() {
-    final char[][] screen = new char[maxX][maxY];
+    final char[][] screen = new char[maxY][maxX];
     for (char[] line : screen) {
-      Arrays.fill(line, ' ');
+      Arrays.fill(line, CELL_DEAD);
     }
     for (Position position : cells.getAliveCells()) {
-      screen[position.x - 1][position.y - 1] = '*';
+      screen[position.y - 1][position.x - 1] = CELL_ALIVE;
     }
     return screen;
   }
