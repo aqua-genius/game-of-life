@@ -1,6 +1,7 @@
 # game-of-life
 
 [![Build Status][build-badge]][build-status]
+[![Code Climate][codeclimate-badge]][codeclimate-status]
 
 [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life)
 
@@ -19,3 +20,5 @@ stack exec game-of-life-exe
 
 [build-badge]: https://img.shields.io/travis/airt/game-of-life.svg
 [build-status]: https://travis-ci.org/airt/game-of-life
+[codeclimate-badge]: https://img.shields.io/codeclimate/github/airt/game-of-life.svg
+[codeclimate-status]: https://codeclimate.com/github/airt/game-of-life
