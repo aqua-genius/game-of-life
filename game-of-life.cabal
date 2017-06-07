@@ -1,34 +1,33 @@
 name:                game-of-life
 version:             0.0.1
-description:         Conway's Game of Life
+synopsis:            Conway's Game of Life
 homepage:            https://github.com/airt/game-of-life
 license:             BSD3
 license-file:        license
 author:              airt
 maintainer:          airtial@gmail.com
-copyright:           2017 airt
-category:            Game
 build-type:          Simple
 extra-source-files:  readme.md
 cabal-version:       >= 1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Lib
-  build-depends:       base >= 4.7 && < 5, containers
+  exposed-modules:     Game.Core, Game.Read, Game.Render
+  build-depends:       base == 4.*, containers, text
   default-language:    Haskell2010
 
 executable game-of-life-exe
   hs-source-dirs:      app
   main-is:             Main.hs
+  build-depends:       base, game-of-life, optparse-applicative, text
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
-  build-depends:       base, game-of-life, optparse-applicative
   default-language:    Haskell2010
 
 test-suite game-of-life-test
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Spec.hs
+  other-modules:       Game.CoreSpec
   build-depends:       base, game-of-life, QuickCheck
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010

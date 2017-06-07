@@ -1,2 +1,3 @@
-main :: IO ()
-main = return ()
+import qualified Game.CoreSpec
+
+main = Game.CoreSpec.main
