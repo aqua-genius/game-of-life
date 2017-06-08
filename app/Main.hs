@@ -1,6 +1,5 @@
 module Main where
 
-import qualified Data.Text.IO as TextIO
 import Data.Semigroup ((<>))
 import Options.Applicative
 import Game.Read (readSeedContent)
@@ -10,11 +9,10 @@ main = initialize =<< execParser options
 
 initialize :: Args -> IO ()
 initialize (Args seedFile interval singleRun) = do
-  content <- TextIO.readFile seedFile
-  let (area, cells) = readSeedContent content
-  putStrLn $ "interval = " ++ show interval
+  (area, cells) <- readSeedContent <$> readFile seedFile
+  putStr "interval = " >> print interval
   print area
-  -- print cells
+  print cells
 
 data Args = Args {
   seedFile :: String,

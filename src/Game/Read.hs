@@ -4,18 +4,30 @@ module Game.Read (
   readSeedContent,
 ) where
 
-import qualified Data.Text as Text
 import Control.Arrow ((***), (&&&))
-import Game.Core (Area(..), Cells(..))
+import Data.Set (fromList)
+import Data.Text (pack, unpack, strip, splitOn)
+import Game.Core (Area(..), Cells(..), Position)
 
-readArea :: Text.Text -> Area
-readArea = uncurry (Area 1 1) . firstTwo . readInts
-  where readInts = map readInt . Text.splitOn (Text.pack ",")
-        readInt = read . Text.unpack . Text.strip
+readArea :: String -> Area
+readArea = uncurry (Area 1 1) . firstTwo . readInts . pack
+  where readInts = map readInt . splitOn separator
+        readInt = read . unpack . strip
         firstTwo (x : y : _) = (x, y)
+        separator = pack ","
 
-readCells :: [Text.Text] -> Cells
-readCells = undefined
+readCells :: [String] -> Cells
+readCells = Cells . fromList . map fst .
+  filter (representAliveCell . snd) . withPositions
 
-readSeedContent :: Text.Text -> (Area, Cells)
-readSeedContent = (readArea *** readCells) . (head &&& tail) . Text.lines
+withPositions :: [String] -> [(Position, Char)]
+withPositions css = do
+  (y, cs) <- zip [1..] css
+  (x, c) <- zip [1..] cs
+  return ((x, y), c)
+
+representAliveCell :: Char -> Bool
+representAliveCell = (== '*')
+
+readSeedContent :: String -> (Area, Cells)
+readSeedContent = (readArea *** readCells) . (head &&& tail) . lines

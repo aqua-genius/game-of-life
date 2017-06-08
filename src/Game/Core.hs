@@ -12,12 +12,10 @@ module Game.Core (
 
 import Data.Set (Set)
 
-data Area =
-  Area { lowerX :: Int, lowerY :: Int, upperX :: Int, upperY :: Int }
+data Area = Area { lowerX :: Int, lowerY :: Int, upperX :: Int, upperY :: Int }
   deriving (Eq, Show)
 
-newtype Cells =
-  Cells { alive :: Set Position }
+newtype Cells = Cells { alive :: Set Position }
   deriving (Eq, Show)
 
 type Position = (Int, Int)

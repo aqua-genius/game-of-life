@@ -14,7 +14,7 @@ prop_inside lowerX lowerY upperX upperY =
 prop_positionsInside lowerX lowerY upperX upperY =
   lowerX <= upperX && lowerY <= upperY ==>
     length (positionsInside area) == lengthExpected &&
-      all (inside area) (positionsInside area)
+    all (inside area) (positionsInside area)
   where lengthExpected = (upperX - lowerX + 1) * (upperY - lowerY + 1)
         area = Area lowerX lowerY upperX upperY
 

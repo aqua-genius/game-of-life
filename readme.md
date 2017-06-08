@@ -12,7 +12,7 @@
 ```sh
 stack build
 stack exec game-of-life-exe -- -h
-stack exec game-of-life-exe -- seeds/gosper-glider-gun.txt -i 20
+stack exec game-of-life-exe -- seeds/gosper-glider-gun.txt
 ```
 
 ## more
