@@ -1,13 +1,16 @@
 module Game.Read (
+  readSeedContent,
   readArea,
   readCells,
-  readSeedContent,
+  positioning,
 ) where
 
 import Control.Arrow ((***), (&&&))
-import Data.Set (fromList)
 import Data.Text (pack, unpack, strip, splitOn)
-import Game.Core (Area(..), Cells(..), Position)
+import Game.Core (Area(..), Cells, Position, createCells)
+
+readSeedContent :: String -> (Area, Cells)
+readSeedContent = (readArea *** readCells) . (head &&& tail) . lines
 
 readArea :: String -> Area
 readArea = uncurry (Area 1 1) . firstTwo . readInts . pack
@@ -17,17 +20,14 @@ readArea = uncurry (Area 1 1) . firstTwo . readInts . pack
         separator = pack ","
 
 readCells :: [String] -> Cells
-readCells = Cells . fromList . map fst .
-  filter (representAliveCell . snd) . withPositions
+readCells = createCells . map fst .
+  filter (representAliveCell . snd) . positioning
 
-withPositions :: [String] -> [(Position, Char)]
-withPositions css = do
+positioning :: [String] -> [(Position, Char)]
+positioning css = do
   (y, cs) <- zip [1..] css
   (x, c) <- zip [1..] cs
   return ((x, y), c)
 
 representAliveCell :: Char -> Bool
 representAliveCell = (== '*')
-
-readSeedContent :: String -> (Area, Cells)
-readSeedContent = (readArea *** readCells) . (head &&& tail) . lines

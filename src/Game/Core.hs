@@ -4,13 +4,14 @@ module Game.Core (
   Position,
   mutate,
   blink,
+  createCells,
   isAlive,
   inside,
   positionsInside,
   neighbors,
 ) where
 
-import Data.Set (Set)
+import Data.Set (Set, fromList)
 
 data Area = Area { lowerX :: Int, lowerY :: Int, upperX :: Int, upperY :: Int }
   deriving (Eq, Show)
@@ -25,6 +26,9 @@ mutate = undefined
 
 blink :: Cells -> Position -> Bool
 blink = undefined
+
+createCells :: [Position] -> Cells
+createCells = Cells . fromList
 
 isAlive :: Cells -> Position -> Bool
 isAlive = undefined

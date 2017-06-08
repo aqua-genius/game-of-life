@@ -1,3 +1,6 @@
 import qualified Game.CoreSpec
+import qualified Game.ReadSpec
 
-main = Game.CoreSpec.main
+main = do
+  Game.CoreSpec.main
+  Game.ReadSpec.main

@@ -5,18 +5,23 @@ module Game.CoreSpec where
 import Test.QuickCheck
 import Game.Core
 
-prop_inside lowerX lowerY upperX upperY =
-  lowerX <= upperX && lowerY <= upperY ==>
-    inside area (lowerX, lowerY) &&
-    not (inside area (lowerX - 1, lowerY - 1))
-  where area = Area lowerX lowerY upperX upperY
+instance Arbitrary Area where
+  arbitrary = do
+    lowerX <- choose (min, max)
+    lowerY <- choose (min, max)
+    upperX <- choose (lowerX, max)
+    upperY <- choose (lowerY, max)
+    return $ Area lowerX lowerY upperX upperY
+    where (min, max) = (1, 100)
 
-prop_positionsInside lowerX lowerY upperX upperY =
-  lowerX <= upperX && lowerY <= upperY ==>
-    length (positionsInside area) == lengthExpected &&
-    all (inside area) (positionsInside area)
+prop_inside area@(Area lowerX lowerY upperX upperY) =
+  inside area (lowerX, lowerY) &&
+  not (inside area (lowerX - 1, lowerY - 1))
+
+prop_positionsInside area@(Area lowerX lowerY upperX upperY) =
+  length (positionsInside area) == lengthExpected &&
+  all (inside area) (positionsInside area)
   where lengthExpected = (upperX - lowerX + 1) * (upperY - lowerY + 1)
-        area = Area lowerX lowerY upperX upperY
 
 prop_neighbors position =
   length (neighbors position) == 8
