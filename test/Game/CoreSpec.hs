@@ -2,6 +2,7 @@
 
 module Game.CoreSpec where
 
+import Control.Monad (filterM)
 import Test.QuickCheck
 import Game.Core
 
@@ -12,7 +13,12 @@ instance Arbitrary Area where
     upperX <- choose (lowerX, max)
     upperY <- choose (lowerY, max)
     return $ Area lowerX lowerY upperX upperY
-    where (min, max) = (1, 100)
+    where (min, max) = (1, 10)
+
+instance Arbitrary Cells where
+  arbitrary = createCells <$> randomPositions
+    where randomPositions = filterM (const randomState) =<< positionsInside <$> arbitrary
+          randomState = frequency [(1, return True), (2, return False)]
 
 prop_inside area@(Area lowerX lowerY upperX upperY) =
   inside area (lowerX, lowerY) &&
