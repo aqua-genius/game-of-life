@@ -11,7 +11,7 @@ module Game.Core (
   neighbors,
 ) where
 
-import Data.Set (Set, fromList, size, member, intersection)
+import Data.Set (Set, fromList, intersection, member, size)
 
 data Area = Area { lowerX :: Int, lowerY :: Int, upperX :: Int, upperY :: Int }
   deriving (Eq, Show)
@@ -25,12 +25,12 @@ mutate :: Area -> Cells -> Cells
 mutate = flip $ (createCells .) . (. positionsInside) . filter . blink
 
 blink :: Cells -> Position -> Bool
-blink cells position =
-  transitions . size . aliveNeighbors $ position
-  where aliveNeighbors = intersection (aliveCells cells) . fromList . neighbors
-        transitions 2 = isAlive cells position
-        transitions 3 = True
-        transitions _ = False
+blink cells position = transitions . size . aliveNeighbors $ position
+  where
+    aliveNeighbors = intersection (aliveCells cells) . fromList . neighbors
+    transitions 2 = isAlive cells position
+    transitions 3 = True
+    transitions _ = False
 
 createCells :: [Position] -> Cells
 createCells = Cells . fromList

@@ -4,10 +4,10 @@ import Control.Concurrent (threadDelay)
 import Control.Monad (unless)
 import Data.Semigroup ((<>))
 import Data.Traversable (traverse)
-import Options.Applicative
 import Game.Core (mutate)
 import Game.Read (readSeedContent)
 import Game.Render (renderT)
+import Options.Applicative
 
 main :: IO ()
 main = initialize =<< execParser options
@@ -17,17 +17,14 @@ initialize (Args seedFile interval singleRun) = do
   (area, cells) <- readSeedContent <$> readFile seedFile
   printCells area cells
   unless singleRun $ loop area cells
-  where printCells = (traverse putStrLn .) . renderT
-        loop area cells = do
-          printCells area cells
-          threadDelay $ interval * 1000
-          loop area $ mutate area cells
+  where
+    printCells = (traverse putStrLn .) . renderT
+    loop area cells = do
+      printCells area cells
+      threadDelay $ interval * 1000
+      loop area $ mutate area cells
 
-data Args = Args {
-  seedFile :: String,
-  interval :: Int,
-  singleRun :: Bool
-}
+data Args = Args { seedFile :: String, interval :: Int, singleRun :: Bool }
 
 parser :: Parser Args
 parser = Args <$>
