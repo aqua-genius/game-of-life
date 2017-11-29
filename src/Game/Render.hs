@@ -1,28 +1,27 @@
 module Game.Render (
   renderT,
-  render,
+  renderContent,
   wrap,
 ) where
 
 import Game.Core (Area(..), Cells, isAlive)
 
 renderT :: Area -> Cells -> [String]
-renderT = (((clearScreenCode :) . wrap) .) . render
+renderT = (((clearScreenCode :) . wrap) .) . renderContent
 
-render :: Area -> Cells -> [String]
-render (Area lowerX lowerY upperX upperY) cells =
+renderContent :: Area -> Cells -> [String]
+renderContent (Area lowerX lowerY upperX upperY) cells =
   renderLine <$> [lowerY..upperY]
   where
     renderLine y = renderCell y =<< [lowerX..upperX]
-    renderCell y x =
-      if isAlive cells (x, y) then renderAliveCell else renderNonAliveCell
-    renderNonAliveCell = "  "
-    renderAliveCell = "▓▓"
+    renderCell y x
+      | isAlive cells (x, y) = "▓▓"
+      | otherwise = "  "
 
 wrap :: [String] -> [String]
 wrap css = [topBorder] ++ (wrapVerticalSides <$> css) ++ [bottomBorder]
   where
-    border = replicate (length . head $ css) '─'
+    border = const '-' <$> head css
     topBorder = "┌" ++ border ++ "┐"
     bottomBorder = "└" ++ border ++ "┘"
     wrapVerticalSides cs = "│" ++ cs ++ "│"

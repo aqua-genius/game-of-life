@@ -1,5 +1,5 @@
 module Game.Core (
-  Area(..),
+  Area(Area),
   Cells,
   Position,
   mutate,
@@ -44,8 +44,8 @@ inside (Area lowerX lowerY upperX upperY) (x, y) =
 
 positionsInside :: Area -> [Position]
 positionsInside (Area lowerX lowerY upperX upperY) =
-  [(x, y) | x <- [lowerX..upperX], y <- [lowerY..upperY]]
+  (,) <$> [lowerX..upperX] <*> [lowerY..upperY]
 
 neighbors :: Position -> [Position]
 neighbors position@(x, y) =
-  filter (/= position) $ positionsInside (Area (x - 1) (y - 1) (x + 1) (y + 1))
+  filter (/= position) $ positionsInside (Area (pred x) (pred y) (succ x) (succ y))
