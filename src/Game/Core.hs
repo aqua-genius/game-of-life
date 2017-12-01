@@ -21,13 +21,13 @@ data Area = Area { lowerX :: Int, lowerY :: Int, upperX :: Int, upperY :: Int }
 newtype Cells = Cells { aliveCells :: Set.Set Position }
   deriving (Eq, Show)
 
-data Difference = Difference { cellsWillLive :: Cells, cellsWillDie :: Cells }
+data Difference = Difference { cellsWillLive :: Set.Set Position, cellsWillDie :: Set.Set Position }
   deriving (Eq, Show)
 
 type Position = (Int, Int)
 
 mutate :: Area -> Cells -> Cells
-mutate = flip $ (createCells .) . (. positionsInside) . filter . blink
+mutate area cells = createCells $ filter (blink cells) (positionsInside area)
 
 blink :: Cells -> Position -> Bool
 blink cells position = transitions . Set.size . aliveNeighbors $ position
@@ -41,8 +41,8 @@ difference :: Cells -> Cells -> Difference
 difference (Cells oldAliveCells) (Cells newAliveCells) =
   Difference cellsWillLive cellsWillDie
   where
-    cellsWillLive = Cells $ Set.difference newAliveCells oldAliveCells
-    cellsWillDie = Cells $ Set.difference oldAliveCells newAliveCells
+    cellsWillLive = Set.difference newAliveCells oldAliveCells
+    cellsWillDie = Set.difference oldAliveCells newAliveCells
 
 createCells :: [Position] -> Cells
 createCells = Cells . Set.fromList

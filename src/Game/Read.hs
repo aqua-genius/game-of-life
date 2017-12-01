@@ -22,12 +22,12 @@ readArea = uncurry (Area 1 1) . firstTwo . readInts . pack
 
 readCells :: [String] -> Cells
 readCells = createCells . map fst . filter (representAliveCell . snd) . positioning
+  where
+    representAliveCell :: Char -> Bool
+    representAliveCell = (== '*')
 
 positioning :: [String] -> [(Position, Char)]
-positioning css = do
-  (y, cs) <- zip [1..] css
-  (x, c) <- zip [1..] cs
+positioning ls = do
+  (y, l) <- zip [1..] ls
+  (x, c) <- zip [1..] l
   return ((x, y), c)
-
-representAliveCell :: Char -> Bool
-representAliveCell = (== '*')

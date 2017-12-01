@@ -1,6 +1,7 @@
 module Game.CoreTest where
 
 import Control.Monad (filterM)
+import Data.Set (fromList)
 import Test.Tasty
 import Test.Tasty.HUnit
 import Test.Tasty.QuickCheck
@@ -76,8 +77,8 @@ caseDifference = testCase "difference" $
   where
     oldCells = createCells [(1, 1), (2, 2)]
     newCells = createCells [(1, 2), (2, 2)]
-    cellsWillLive = createCells [(1, 2)]
-    cellsWillDie = createCells [(1, 1)]
+    cellsWillLive = fromList [(1, 2)]
+    cellsWillDie = fromList [(1, 1)]
 
 propInside = testProperty "inside" $
   \area@(Area lowerX lowerY upperX upperY) ->
