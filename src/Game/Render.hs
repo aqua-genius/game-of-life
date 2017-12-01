@@ -1,13 +1,13 @@
 module Game.Render (
-  renderT,
+  renderC,
   renderContent,
   wrap,
 ) where
 
 import Game.Core (Area(..), Cells, isAlive)
 
-renderT :: Area -> Cells -> [String]
-renderT = (((clearScreenCode :) . wrap) .) . renderContent
+renderC :: Area -> Cells -> [String]
+renderC = (((clearScreenCode :) . wrap) .) . renderContent
 
 renderContent :: Area -> Cells -> [String]
 renderContent (Area lowerX lowerY upperX upperY) cells =

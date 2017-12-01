@@ -21,8 +21,7 @@ readArea = uncurry (Area 1 1) . firstTwo . readInts . pack
     separator = pack ","
 
 readCells :: [String] -> Cells
-readCells =
-  createCells . map fst . filter (representAliveCell . snd) . positioning
+readCells = createCells . map fst . filter (representAliveCell . snd) . positioning
 
 positioning :: [String] -> [(Position, Char)]
 positioning css = do

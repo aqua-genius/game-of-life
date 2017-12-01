@@ -71,6 +71,14 @@ caseBlink = testCase "blink" $ do
                 \ * \n\
                 \* *\n"
 
+caseDifference = testCase "difference" $
+  difference oldCells newCells @?= Difference cellsWillLive cellsWillDie
+  where
+    oldCells = createCells [(1, 1), (2, 2)]
+    newCells = createCells [(1, 2), (2, 2)]
+    cellsWillLive = createCells [(1, 2)]
+    cellsWillDie = createCells [(1, 1)]
+
 propInside = testProperty "inside" $
   \area@(Area lowerX lowerY upperX upperY) ->
     inside area (lowerX, lowerY) &&
@@ -96,6 +104,6 @@ propNeighbors = testProperty "neighbors" $
 
 props = testGroup "Properties" [propInside, propPositionsInside, propNeighbors]
 
-cases = testGroup "Unit Tests" [caseMutate, caseBlink]
+cases = testGroup "Unit Tests" [caseMutate, caseBlink, caseDifference]
 
 tests = testGroup "Game.Core" [props, cases]

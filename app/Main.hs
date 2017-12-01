@@ -6,7 +6,7 @@ import Data.Semigroup ((<>))
 import Data.Traversable (traverse)
 import Game.Core (mutate)
 import Game.Read (readSeedContent)
-import Game.Render (renderT)
+import Game.Render (renderC)
 import Options.Applicative
 
 main :: IO ()
@@ -18,7 +18,7 @@ initialize (Args seedFile interval singleRun) = do
   printCells area cells
   unless singleRun $ loop area cells
   where
-    printCells = (traverse putStrLn .) . renderT
+    printCells = (traverse putStrLn .) . renderC
     loop area cells = do
       printCells area cells
       threadDelay $ interval * 1000
